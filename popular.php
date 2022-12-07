@@ -1,5 +1,5 @@
 <?php
-        include "db/connect.php";
+        include "connect.php";
         session_start();
         class Thongtin
         {

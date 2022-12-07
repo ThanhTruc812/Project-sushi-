@@ -1,5 +1,5 @@
 <?php
-        include "db/connect.php";
+        include "xuli/connect.php";
         session_start();
         class Thongtin
         {
@@ -166,14 +166,14 @@
                     </li>
 
                     <li class="nav__item">
-                        <a href="main/popular.php" class="nav__link">Popular</a>
+                        <a href="popular.php" class="nav__link">Popular</a>
                     </li>
 
                     <li class="nav__item">
-                        <a href="main/recently.php" class="nav__link">Recently</a>
+                        <a href="recently.php" class="nav__link">Recently</a>
                     </li>
                     <li class="nav__item">
-                        <a href="main/recently.php" class="nav__link">Acount</a>
+                        <a href="account.php" class="nav__link">Acount</a>
                     </li>
                     
                 </ul>
