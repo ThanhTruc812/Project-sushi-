@@ -3,13 +3,13 @@
         session_start();
         class Thongtin
         {
-            public $about_caption;
-            public $about_img;
+            public $home_caption;
+            public $home_img;
         }
         
         
         
-        $sql = "SELECT about_caption, about_img FROM tbl_about";
+        $sql = "SELECT home_caption, home_img FROM tbl_home ";
         $result = $con->query($sql);
         $array = [];
         
@@ -17,8 +17,8 @@
             // Load dữ liệu lên website
             while ($row = $result->fetch_assoc()) {
                 $thongtin = new Thongtin();
-                $thongtin->about_caption = $row["about_caption"];
-                $thongtin->about_img = $row["about_img"];
+                $thongtin->home_caption = $row["home_caption"];
+                $thongtin->home_img = $row["home_img"];
                 array_push($array, $thongtin);
             }
         
@@ -32,25 +32,31 @@
         {
             ob_start();
          ?>
-            <nav class="about">
-
-                <div class="about__left">
-                    <img src='http://localhost:8080/Project-sushi-/<?= $value->about_img ?>' width="300px">
-                </div>
-
-                <div class="about__right">
-                    <div class="about__data">
-                        <span class="subtitle">About us</span>
-
-                        <h2>
-                            We Provide 
-                            <img src="img/about-sushi-title.png" alt="">
-                            Healthy Food
-                        </h2>
-
-                        <p> <?= $value->about_caption ?></p>
+            <nav class="container">
+            
+                <div class="home__left">
+                    <div class="home__left_title">
+                        <h1>Thưởng Thức Các Món 
+                            <div>
+                                <img src="img/home-sushi-title.png" alt=""> Sushi Ngon
+                            </div>
+                        </h1>
                     </div>
+
+                    <div class="title">
+                        <p> <?= $value->home_caption ?></p>
+                    </div>
+                    
+                    <a href="about.php" class="button">
+                        Tìm hiểu ngay <i class="ri-arrow-right-line"></i>
+                    </a>
                 </div>
+
+               <div class="home__right">
+                    <a href="#" class="home__img">
+                        <img src='http://localhost:8080/Project-sushi-/<?= $value->home_img ?>'>
+                    </a>
+               </div>
             </nav>
 
         <?php
@@ -69,60 +75,74 @@
     <link rel="stylesheet" href="style.css">
     <title>Sushi</title>
     <style>
-        .about{
-            display: flex;
+        .container{
+            margin-top: 200px;
+        }
+
+        
+
+        .home__left{
+            float: left;
+            font-family: "Poppins", sans-serif;
+            display: block;
+            margin-left: 200px;
+        }
+
+        .home__left_title{
+            text-align: center;
+            font-size: 25px;
+            column-gap: .5rem;
+            text-shadow: 5px 2px 4px grey;
+            font-weight: bold;
+            
+        }
+
+        .home__left_title img{
+            width: 40px;
+        }
+        .home__left .title p{
+            width: 350px;
+            margin-top: 30px;
+        }
+
+        .home__left .button{
+            display: inline-flex;
+            text-align: center;
+            column-gap: .5rem;
+            background-color: hsl(19, 64%, 54%);
+            padding: 1rem 1.5rem;
+            border-radius: 4rem;
+            color: #fff;
+            font-weight: 500;
+            transition: background .3s;
+            margin-top: 3rem;
+            margin-left: 2.5rem;
+            box-shadow: 3px 5px 5px 0px hsl(19, 8%, 55%);
+        }
+
+        .home__left .button i{
+            font-size: 1.5rem;
+            transition: transform .3s;
+        }
+
+        .home__left .button:hover{
+            background-color: hsl(19, 64%, 52%);
+        }
+
+        .home__left .button:hover i{
+            transform: translateX(.25rem);
+        }
+
+
+        .container .home__right{
+            float: right;
+        }
+
+        .container .home__right .home__img img{
+            width: 400px;
         }
         
-        .about .about__left{
-            margin-left: 200px;
-            margin-top: 150px;
-        }
-
-        .about .about__left img{
-            width: 500px;
-        }
-
-        .about .about__right{
-            text-align: center;
-            margin-top: 150px;
-            margin-left: 70px;
-        }
-
-        .about .about__right .about__data{
-            display: block;
-            text-align: center;
-            justify-content: center;
-        }
-
-        .about .about__right .about__data .subtitle{
-            font-family:  "Dancing Script", cursive;
-            font-size: 1.5rem;
-            color: hsl(19, 64%, 54%);
-            font-size: 2.25rem;
-            text-shadow: 5px 2px 4px grey;
-
-        }
-
-        .about .about__right .about__data img{
-            width: 40px;
-            text-align: center;
-            row-gap: .5rem;
-            margin-top: 20px;
-        }
-
-        .about .about__right .about__data h2{
-            font-family: "Lora", serif;
-            font-size: 30px;
-            color: hsl(19, 16%, 15%);
-            text-shadow: 5px 2px 4px grey;
-        }
-
-        .about .about__right .about__data p{
-            margin-top: 20px;
-            width: 350px;
-            text-align: center;
-            padding-left: 30px;
-        }
+        
     </style>
     
 </head>
@@ -152,11 +172,22 @@
                     <li class="nav__item">
                         <a href="recently.php" class="nav__link">Recently</a>
                     </li>
-                    <li class="nav__item">
-                        <a href="account.php" class="nav__link">Acount</a>
+                    <?php
+                        include('xuli/connect.php');
+
+                        $sql = "SELECT * FROM tbl_user";
+                        $result = mysqli_query($con, $sql);
+
+                        while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                    <li class="nav__item" id="account">
+                        <a href="information.php?thongtin=user&id=<?php  ?> class="nav__link">Acount</a>
                     </li>
-                    
+                    <?php
+                        }
+                    ?>
                 </ul>
+
 
                 <!-- ======== close ========= -->
                 <!-- <div class="nav__close" id="nav-close">
@@ -166,6 +197,7 @@
             
 
             </div>
+            
 
             <!-- <div class="nav__button">
                 Theme change button
@@ -182,16 +214,16 @@
     <!-- ============= MAIN ======================= -->
     <main class="main" id="main">
         <section class="home">
-            
+                <?php
+
+                foreach ($array as $key => $value) {
+                    echo RenderColunCardMaThue($value);
+                }
+                ?>
         </section>
 
         <section class="about">
-            <?php
 
-            foreach ($array as $key => $value) {
-                echo RenderColunCardMaThue($value);
-            }
-            ?>
         </section>
 
         <section class="popular">
@@ -213,7 +245,9 @@
     </footer>
 
     <!-- ============= CROLLREVEAL ======================= -->
-    <script src=""></script>
+    <script src="">
+        
+    </script>
 
 
     <!-- ============= MAIN JS ======================= -->
